@@ -1,0 +1,21 @@
+{
+    "name": "mheap/phpunit-github-actions-printer",
+    "description": "PHPUnit Printer for adding test failures as annotations on GitHub Actions",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Heap",
+            "email": "m@michaelheap.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "mheap\\GithubActionsReporter\\": "src"
+        }
+    },
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^8"
+    }
+}
