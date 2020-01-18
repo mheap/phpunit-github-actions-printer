@@ -2,12 +2,9 @@
 
 namespace mheap\GithubActionsReporter;
 
-use PHPUnit\Util\Filter;
-use PHPUnit\Framework\Test;
-use PHPUnit\Runner\Version;
 use PHPUnit\Framework\TestResult;
-use PHPUnit\TextUI\ResultPrinter;
 use PHPUnit\Framework\TestFailure;
+use PHPUnit\TextUI\ResultPrinter;
 
 class Printer extends ResultPrinter
 {
