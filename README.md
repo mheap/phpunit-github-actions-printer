@@ -4,6 +4,10 @@
 
 This is a PHPUnit printer that uses the `::error` and `::warning` functionality of GitHub Actions to add annotiations for failing test runs. It's main differentiator to the above is that it supports adding warnings in addition to errors.
 
+![PHPUnit Action Matcher Logs Example](https://github.com/mheap/phpunit-github-actions-printer/blob/master/phpunit-printer-logs.png?raw=true)
+
+![PHPUnit Action Matcher Context Example](https://github.com/mheap/phpunit-github-actions-printer/blob/master/phpunit-printer-context.png?raw=true)
+
 ## Usage
 
 Add this printer to your project
