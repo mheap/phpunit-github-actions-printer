@@ -8,6 +8,8 @@ This is a PHPUnit printer that uses the `::error` and `::warning` functionality 
 
 ![PHPUnit Action Matcher Context Example](https://github.com/mheap/phpunit-github-actions-printer/blob/master/phpunit-printer-context.png?raw=true)
 
+> If you're interested in learning more about GitHub Actions, [sign up here](https://michaelheap.com/building-github-actions/)
+
 ## Usage
 
 Add this printer to your project
