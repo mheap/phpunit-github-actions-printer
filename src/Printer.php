@@ -26,9 +26,8 @@ class Printer extends ResultPrinter
     {
         $this->currentType = $type;
 
-        $i=0;
-        foreach ($defects as $defect) {
-            $this->printDefect($defect, $i++);
+        foreach ($defects as $i => $defect) {
+            $this->printDefect($defect, $i);
         }
     }
 
@@ -57,19 +56,15 @@ class Printer extends ResultPrinter
     }
 
     protected function getCurrentType() {
-        if (in_array($this->currentType, ['error', 'failure'])) {
-            return 'error';
-        }
-
-        return 'warning';
+        return in_array($this->currentType, ['error', 'failure']) ? 'error' : 'warning';
     }
 
     protected function relativePath(string $path) {
-        return str_replace(getcwd().'/', "", $path);
+        return str_replace(getcwd().'/', '', $path);
     }
 
     protected function getReflectionFromTest(string $name) {
-        list($klass, $method) = explode("::", $name);
+        list($klass, $method) = explode('::', $name);
         $c = new \ReflectionClass($klass);
         $m = $c->getMethod($method);
 
