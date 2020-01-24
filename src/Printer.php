@@ -73,7 +73,7 @@ class Printer extends ResultPrinter
 
     protected function relativePath(string $path)
     {
-        return str_replace(getcwd() . '/', '', $path);
+        return str_replace(getcwd() . DIRECTORY_SEPARATOR, '', $path);
     }
 
     protected function getReflectionFromTest(string $name)
