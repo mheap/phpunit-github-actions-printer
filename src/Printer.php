@@ -40,30 +40,44 @@ class Printer extends ResultPrinter
         $e = $defect->thrownException();
 
         $errorLines = array_filter(
-            explode(PHP_EOL, (string)$e), 
-            function($l){ return $l; }
+            explode(PHP_EOL, (string)$e),
+            function ($l) {
+                return $l;
+            }
         );
 
         list($path, $line) = explode(":", end($errorLines));
 
         if (!$path) {
-            list($path, $line) = $this->getReflectionFromTest($defect->getTestName());
+            list($path, $line) = $this->getReflectionFromTest(
+                $defect->getTestName()
+            );
         }
 
         $message = explode(PHP_EOL, $e->getMessage())[0];
 
-        $this->write("::{$this->getCurrentType()} file={$this->relativePath($path)},line={$line}::{$message}\n");
+        $type = $this->getCurrentType();
+        $file = "file={$this->relativePath($path)}";
+        $line = "line={$line}";
+        $this->write("::{$type} $file,$line::{$message}\n");
     }
 
-    protected function getCurrentType() {
-        return in_array($this->currentType, ['error', 'failure']) ? 'error' : 'warning';
+    protected function getCurrentType()
+    {
+        if (in_array($this->currentType, ['error', 'failure'])) {
+            return 'error';
+        }
+
+        return 'warning';
     }
 
-    protected function relativePath(string $path) {
-        return str_replace(getcwd().'/', '', $path);
+    protected function relativePath(string $path)
+    {
+        return str_replace(getcwd() . '/', '', $path);
     }
 
-    protected function getReflectionFromTest(string $name) {
+    protected function getReflectionFromTest(string $name)
+    {
         list($klass, $method) = explode('::', $name);
         $c = new \ReflectionClass($klass);
         $m = $c->getMethod($method);
