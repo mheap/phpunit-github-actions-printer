@@ -31,7 +31,7 @@ class Printer extends ResultPrinter
         }
     }
 
-    protected function printDefectHeader(TestFailure $defect, int $count): void
+    protected function printDefectHeader(TestFailure $defect, $count): void
     {
     }
 
