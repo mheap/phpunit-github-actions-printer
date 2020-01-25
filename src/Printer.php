@@ -14,7 +14,7 @@ class Printer extends ResultPrinter
     {
     }
 
-    protected function writeProgress(string $progress): void
+    protected function writeProgress($progress): void
     {
     }
 
