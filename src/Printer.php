@@ -22,7 +22,7 @@ class Printer extends ResultPrinter
     {
     }
 
-    protected function printDefects(array $defects, string $type): void
+    protected function printDefects(array $defects, $type): void
     {
         $this->currentType = $type;
 
