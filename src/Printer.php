@@ -40,13 +40,16 @@ class Printer extends ResultPrinter
         $e = $defect->thrownException();
 
         $errorLines = array_filter(
-            explode(PHP_EOL, (string)$e),
+            explode("\n", (string)$e),
             function ($l) {
                 return $l;
             }
         );
 
-        list($path, $line) = explode(":", end($errorLines));
+        $error = end($errorLines);
+        $lineIndex = strrpos($error, ":");
+        $path = substr($error, 0, $lineIndex);
+        $line = substr($error, $lineIndex+1);
 
         if (!$path) {
             list($path, $line) = $this->getReflectionFromTest(
