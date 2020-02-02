@@ -44,7 +44,7 @@ class Printer extends ResultPrinter
             function ($l) {
                 return $l;
             }
-        );
+	);
 
         $error = end($errorLines);
         $lineIndex = strrpos($error, ":");
@@ -57,7 +57,7 @@ class Printer extends ResultPrinter
             );
         }
 
-        $message = explode(PHP_EOL, $e->getMessage())[0];
+	$message = explode("\n", $e->getMessage())[0];
 
         $type = $this->getCurrentType();
         $file = "file={$this->relativePath($path)}";
