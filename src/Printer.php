@@ -49,7 +49,7 @@ class Printer extends ResultPrinter
         $error = end($errorLines);
         $lineIndex = strrpos($error, ":");
         $path = substr($error, 0, $lineIndex);
-        $line = substr($error, $lineIndex+1);
+        $line = substr($error, $lineIndex + 1);
 
         if (!$path) {
             list($path, $line) = $this->getReflectionFromTest(
@@ -76,7 +76,10 @@ class Printer extends ResultPrinter
 
     protected function relativePath(string $path)
     {
-        return str_replace(getcwd() . DIRECTORY_SEPARATOR, '', $path);
+        $relative = str_replace(getcwd() . DIRECTORY_SEPARATOR, '', $path);
+        // Translate \ in to / for Windows
+        $relative = str_replace('\\', '/', $relative);
+        return $relative;
     }
 
     protected function getReflectionFromTest(string $name)
