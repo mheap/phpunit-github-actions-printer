@@ -51,10 +51,13 @@ class Printer extends ResultPrinter
         $path = substr($error, 0, $lineIndex);
         $line = substr($error, $lineIndex + 1);
 
-        if (!$path) {
-            list($path, $line) = $this->getReflectionFromTest(
-                $defect->getTestName()
-            );
+        list($reflectedPath, $reflectedLine) = $this->getReflectionFromTest(
+            $defect->getTestName()
+        );
+
+        if($path !== $reflectedPath) {
+        	$path = $reflectedPath;
+        	$line = $reflectedLine;
         }
 
         $message = explode("\n", $e->getMessage())[0];
