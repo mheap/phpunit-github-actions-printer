@@ -57,7 +57,8 @@ class Printer extends ResultPrinter
             );
         }
 
-        $message = explode("\n", $e->getMessage())[0];
+        $message = explode("\n", $defect->getExceptionAsString());
+        $message = implode('%0A', $message);
 
         $type = $this->getCurrentType();
         $file = "file={$this->relativePath($path)}";
