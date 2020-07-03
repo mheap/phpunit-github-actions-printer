@@ -13,7 +13,7 @@ require_once(dirname(dirname(__FILE__))).'/vendor/autoload.php';
 PHPUnit\TextUI\Command::main();
 ?>
 --EXPECTF--
-PHPUnit 8.5.2 by Sebastian Bergmann and contributors.
+PHPUnit 8.5.8 by Sebastian Bergmann and contributors.
 
 ::error file=test/_files/PrinterStatesTest.php,line=17::strpos() expects at least 2 parameters, 0 given
 ::error file=test/_files/PrinterStatesTest.php,line=22::Call to undefined method PrinterStatesTest::isMissing()

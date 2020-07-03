@@ -10,7 +10,7 @@ class Printer extends ResultPrinter
 {
     protected $currentType = null;
 
-    protected function printHeader(): void
+    protected function printHeader(TestResult $result): void
     {
     }
 
