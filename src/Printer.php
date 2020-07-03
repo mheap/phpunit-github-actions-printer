@@ -1,97 +1,26 @@
-<?php
+<?php // phpcs:disable PSR1.Files.SideEffects.FoundWithSymbols
+
+// phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
 
 namespace mheap\GithubActionsReporter;
 
-use PHPUnit\Framework\TestResult;
-use PHPUnit\Framework\TestFailure;
-use PHPUnit\TextUI\ResultPrinter;
+use PHPUnit\Runner\Version;
+use PHPUnit_TextUI_ResultPrinter;
 
-class Printer extends ResultPrinter
-{
-    protected $currentType = null;
+$low  = version_compare(Version::series(), '8.0', '>=');
+$high = version_compare(Version::series(), '8.99.99', '<=');
 
-    protected function printHeader(TestResult $result): void
+if ($low && $high) {
+    class Printer extends Printer8
     {
     }
+}
 
-    protected function writeProgress(string $progress): void
+$low  = version_compare(Version::series(), '9.0', '>=');
+$high = true; // version_compare(Version::series(),'8.99.99','<=');
+
+if ($low && $high) {
+    class Printer extends Printer9
     {
-    }
-
-    protected function printFooter(TestResult $result): void
-    {
-    }
-
-    protected function printDefects(array $defects, string $type): void
-    {
-        $this->currentType = $type;
-
-        foreach ($defects as $i => $defect) {
-            $this->printDefect($defect, $i);
-        }
-    }
-
-    protected function printDefectHeader(TestFailure $defect, int $count): void
-    {
-    }
-
-    protected function printDefectTrace(TestFailure $defect): void
-    {
-        $e = $defect->thrownException();
-
-        $errorLines = array_filter(
-            explode("\n", (string)$e),
-            function ($l) {
-                return $l;
-            }
-        );
-
-        $error = end($errorLines);
-        $lineIndex = strrpos($error, ":");
-        $path = substr($error, 0, $lineIndex);
-        $line = substr($error, $lineIndex + 1);
-
-        list($reflectedPath, $reflectedLine) = $this->getReflectionFromTest(
-            $defect->getTestName()
-        );
-
-        if($path !== $reflectedPath) {
-        	$path = $reflectedPath;
-        	$line = $reflectedLine;
-        }
-
-        $message = explode("\n", $defect->getExceptionAsString());
-        $message = implode('%0A', $message);
-
-        $type = $this->getCurrentType();
-        $file = "file={$this->relativePath($path)}";
-        $line = "line={$line}";
-        $this->write("::{$type} $file,$line::{$message}\n");
-    }
-
-    protected function getCurrentType()
-    {
-        if (in_array($this->currentType, ['error', 'failure'])) {
-            return 'error';
-        }
-
-        return 'warning';
-    }
-
-    protected function relativePath(string $path)
-    {
-        $relative = str_replace(getcwd() . DIRECTORY_SEPARATOR, '', $path);
-        // Translate \ in to / for Windows
-        $relative = str_replace('\\', '/', $relative);
-        return $relative;
-    }
-
-    protected function getReflectionFromTest(string $name)
-    {
-        list($klass, $method) = explode('::', $name);
-        $c = new \ReflectionClass($klass);
-        $m = $c->getMethod($method);
-
-        return [$m->getFileName(), $m->getStartLine()];
     }
 }
