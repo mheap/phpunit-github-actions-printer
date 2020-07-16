@@ -9,52 +9,47 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        php-versions: ['7.3', '7.4']
-        phpunit-version: ['8', '9']
+        php-versions: ["7.3", "7.4"]
+        phpunit-version: ["8", "9"]
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.os }} (PHPUnit ${{ matrix.phpunit-version }})
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v1
-      with:
-        php-version: ${{ matrix.php-versions }}
-        extensions: mbstring
-        coverage: xdebug
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring
+          coverage: xdebug
 
-    - name: Set PHPUnit Version (Non-Windows)
-      run: |
-        sed -i.bak 's#"phpunit/phpunit": "^9"#"phpunit/phpunit": "^${{ matrix.phpunit-version }}"#' composer.json
-      if: "!startsWith(matrix.os, 'windows')"
+      - name: Set PHPUnit Version
+        run: |
+          $content = Get-Content -Path 'composer.json' | ConvertFrom-Json
+          $content.{require-dev}.{phpunit/phpunit} = "^${{ matrix.phpunit-version }}"
+          $content | ConvertTo-Json  | Set-Content -Path 'composer.json'
+        shell: pwsh
 
-    - name: Set PHPUnit Version (Windows)
-      run: |
-        $content = Get-Content -Path 'composer.json'
-        $newContent = $content -replace '"phpunit/phpunit": "\^9"', '"phpunit/phpunit": "^${{ matrix.phpunit-version }}"'
-        $newContent | Set-Content -Path 'composer.json'
-      if: "startsWith(matrix.os, 'windows')"
+      - name: Composer dependencies
+        run: composer install --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
 
-    - name: Composer dependencies
-      run: composer install --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+      - name: Configure tests for the current PHPUnit version (Non-Windows)
+        run: |
+          V=$(./vendor/bin/phpunit --version)
+          sed -i.bak "s/%%VERSION%%/$V/" test/states-test.phpt
+        if: "!startsWith(matrix.os, 'windows')"
 
-    - name: Configure tests for the current PHPUnit version (Non-Windows)
-      run: |
-        V=$(./vendor/bin/phpunit --version)
-        sed -i.bak "s/%%VERSION%%/$V/" test/states-test.phpt
-      if: "!startsWith(matrix.os, 'windows')"
+      - name: Configure tests for the current PHPUnit version (Windows)
+        id: phpunit-windows
+        run: |
+          $V = (.\vendor\bin\phpunit --version | Out-String).trim()
+          $content = Get-Content -Path 'test/states-test.phpt'
+          $newContent = $content -replace '%%VERSION%%', $V
+          $newContent | Set-Content -Path 'test/states-test.phpt'
+        if: "startsWith(matrix.os, 'windows')"
 
-    - name: Configure tests for the current PHPUnit version (Windows)
-      id: phpunit-windows
-      run: |
-        $V = (.\vendor\bin\phpunit --version | Out-String).trim()
-        $content = Get-Content -Path 'test/states-test.phpt'
-        $newContent = $content -replace '%%VERSION%%', $V
-        $newContent | Set-Content -Path 'test/states-test.phpt'
-      if: "startsWith(matrix.os, 'windows')"
+      - name: Run phpunit
+        run: ./vendor/bin/phpunit
 
-    - name: Run phpunit
-      run: ./vendor/bin/phpunit
-
-    - name: Run phpcs
-      run: ./vendor/bin/phpcs
+      - name: Run phpcs
+        run: ./vendor/bin/phpcs
