@@ -7,6 +7,15 @@ namespace mheap\GithubActionsReporter;
 use PHPUnit\Runner\Version;
 use PHPUnit_TextUI_ResultPrinter;
 
+$low  = version_compare(Version::series(), '7.0', '>=');
+$high = version_compare(Version::series(), '7.99.99', '<=');
+
+if ($low && $high) {
+    class Printer extends Printer7
+    {
+    }
+}
+
 $low  = version_compare(Version::series(), '8.0', '>=');
 $high = version_compare(Version::series(), '8.99.99', '<=');
 
