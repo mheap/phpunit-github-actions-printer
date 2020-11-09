@@ -10,6 +10,7 @@
         }
     ],
     "autoload": {
+        "files": ["src/Functions/helpers.php"],
         "psr-4": {
             "mheap\\GithubActionsReporter\\": "src"
         }

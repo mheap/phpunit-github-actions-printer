@@ -8,15 +8,13 @@ use PHPUnit\Framework\TestResult;
 
 use function mheap\GithubActionsReporter\Functions\printDefectTrace;
 
-class Printer7 extends ResultPrinter
+class Printer6 extends ResultPrinter
 {
-    protected $currentType = null;
-
     protected function printHeader(): void
     {
     }
 
-    protected function writeProgress(string $progress): void
+    protected function writeProgress($progress): void
     {
     }
 
@@ -24,11 +22,11 @@ class Printer7 extends ResultPrinter
     {
     }
 
-    protected function printDefects(array $defects, string $type): void
+    protected function printDefects(array $defects, $type): void
     {
     }
 
-    protected function printDefectHeader(TestFailure $defect, int $count): void
+    protected function printDefectHeader(TestFailure $defect, $count): void
     {
     }
 
