@@ -10,7 +10,10 @@ use function mheap\GithubActionsReporter\Functions\printDefectTrace;
 
 class Printer7 extends ResultPrinter
 {
-    protected $currentType = null;
+    /**
+     * @var null|string
+     */
+    private $currentType;
 
     protected function printHeader(): void
     {
@@ -26,6 +29,11 @@ class Printer7 extends ResultPrinter
 
     protected function printDefects(array $defects, string $type): void
     {
+        $this->currentType = (in_array($type, ['error', 'failure']) === true) ? 'error' : 'warning';
+
+        foreach ($defects as $i => $defect) {
+            $this->printDefect($defect, $i);
+        }
     }
 
     protected function printDefectHeader(TestFailure $defect, int $count): void
@@ -34,6 +42,6 @@ class Printer7 extends ResultPrinter
 
     protected function printDefectTrace(TestFailure $defect): void
     {
-        $this->write(printDefectTrace($defect));
+        $this->write(printDefectTrace($defect, $this->currentType));
     }
 }

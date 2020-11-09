@@ -39,12 +39,13 @@ function determinePrinter($version)
 
 /**
  * @param TestFailure $defect
+ * @param string $defectType
  *
  * @return string
  * @throws \ReflectionException
  * @internal
  */
-function printDefectTrace($defect)
+function printDefectTrace($defect, $defectType)
 {
     $e = $defect->thrownException();
 
@@ -76,12 +77,11 @@ function printDefectTrace($defect)
     $message = relativePath($message);
     $message = preg_replace('/%0A$/', '', $message);
 
-    $type = $defect->isFailure() ? 'error' : 'warning';
     $path = relativePath($path);
     $file = "file={$path}";
     $line = "line={$line}";
 
-    return "::{$type} $file,$line::{$message}\n";
+    return "::{$defectType} $file,$line::{$message}\n";
 }
 
 /**

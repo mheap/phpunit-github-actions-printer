@@ -8,10 +8,14 @@ use PHPUnit\TextUI\ResultPrinter;
 
 use function mheap\GithubActionsReporter\Functions\getCurrentType;
 use function mheap\GithubActionsReporter\Functions\printDefects;
+use function mheap\GithubActionsReporter\Functions\printDefectTrace;
 
 class Printer8 extends ResultPrinter
 {
-    protected $currentType = null;
+    /**
+     * @var null|string
+     */
+    private $currentType;
 
     protected function printHeader(TestResult $result): void
     {
@@ -27,7 +31,11 @@ class Printer8 extends ResultPrinter
 
     protected function printDefects(array $defects, string $type): void
     {
-        $this->write(printDefects($defects, $type));
+        $this->currentType = (in_array($type, ['error', 'failure']) === true) ? 'error' : 'warning';
+
+        foreach ($defects as $i => $defect) {
+            $this->printDefect($defect, $i);
+        }
     }
 
     protected function printDefectHeader(TestFailure $defect, int $count): void
@@ -36,5 +44,6 @@ class Printer8 extends ResultPrinter
 
     protected function printDefectTrace(TestFailure $defect): void
     {
+        $this->write(printDefectTrace($defect, $this->currentType));
     }
 }
