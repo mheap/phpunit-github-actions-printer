@@ -14,6 +14,9 @@
         <testsuite name="Github Actions printer for PHPUnit Test Suite">
             <directory suffix=".phpt">./test/</directory>
         </testsuite>
+        <testsuite name="Github Actions printer for PHPUnit Test Suite">
+            <directory suffix=".php">./test/Unit/</directory>
+        </testsuite>
     </testsuites>
     <filter>
         <whitelist>

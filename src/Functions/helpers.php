@@ -76,7 +76,10 @@ function printDefectTrace($defect, $defectType)
 
     // Some messages might contain paths. Let's convert thost to relative paths too
     $message = relativePath($message);
-    $message = preg_replace('/%0A$/', '', $message);
+    $lineFeedPosition = strpos($message, '%0A');
+    if (is_int($lineFeedPosition) === true) {
+        $message = substr($message, 0, $lineFeedPosition);
+    }
 
     $path = relativePath($path);
     $file = "file={$path}";
