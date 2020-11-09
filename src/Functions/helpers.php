@@ -27,7 +27,8 @@ function determinePrinter($version)
     ];
 
     foreach ($versionMatrix as list($lowerVersion, $upperVersion, $class)) {
-        if (version_compare($version, $lowerVersion, '>=') == true &&
+        if (
+            version_compare($version, $lowerVersion, '>=') == true &&
             ($upperVersion === true || version_compare($version, $upperVersion, '<=') == true)
         ) {
             return $class;
