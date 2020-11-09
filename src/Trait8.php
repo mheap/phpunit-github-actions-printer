@@ -93,6 +93,13 @@ trait Trait8
     protected function getReflectionFromTest(string $name)
     {
         list($klass, $method) = explode('::', $name);
+
+        // Handle data providers
+        $parts = explode(" ", $method, 2);
+        if (count($parts) > 1) {
+            $method = $parts[0];
+        }
+
         $c = new \ReflectionClass($klass);
         $m = $c->getMethod($method);
 
