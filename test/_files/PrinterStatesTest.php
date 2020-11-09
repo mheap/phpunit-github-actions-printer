@@ -45,5 +45,20 @@ class PrinterStatesTest extends PHPUnit\Framework\TestCase
     {
         $this->markTestIncomplete('Incomplete');
     }
+
+    /**
+     * @dataProvider demoProvider
+     */
+    public function testProvider($v)
+    {
+        $this->assertTrue($v);
+    }
+
+    public function demoProvider()
+    {
+        return [
+            [false]
+        ];
+    }
 }
 
