@@ -9,7 +9,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        php-versions: ["7.3", "7.4", "8"]
+        php-versions: ["7.3", "7.4"]
         phpunit-version: ["7", "8", "9"]
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.os }} (PHPUnit ${{ matrix.phpunit-version }})
     steps:
