@@ -1,7 +1,10 @@
 --TEST--
 phpunit -c tests/_files/phpunit.xml tests/_files/PrinterStatesTest.php
 --SKIPIF--
-<?php if (version_compare(PHPUnit\Runner\Version::id(), '7.0.0', '>=') === true) echo 'skip'; ?>
+<?php
+require_once(dirname(dirname(__FILE__))).'/vendor/autoload.php';
+if (version_compare(PHPUnit\Runner\Version::id(), '7.0.0', '>=') === true) echo 'skip';
+?>
 --FILE--
 <?php
 $_SERVER['TERM']    = 'xterm';
