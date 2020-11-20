@@ -2,24 +2,24 @@
 
 namespace mheap\GithubActionsReporter;
 
+use PHPUnit\TextUI\ResultPrinter;
 use PHPUnit\Framework\TestFailure;
 use PHPUnit\Framework\TestResult;
-use PHPUnit\TextUI\DefaultResultPrinter;
 
 use function mheap\GithubActionsReporter\Functions\printDefectTrace;
 
-class Printer9 extends DefaultResultPrinter
+class Printer6 extends ResultPrinter
 {
     /**
      * @var null|string
      */
     private $currentType;
 
-    protected function printHeader(TestResult $result): void
+    protected function printHeader(): void
     {
     }
 
-    protected function writeProgress(string $progress): void
+    protected function writeProgress($progress): void
     {
     }
 
@@ -27,7 +27,7 @@ class Printer9 extends DefaultResultPrinter
     {
     }
 
-    protected function printDefects(array $defects, string $type): void
+    protected function printDefects(array $defects, $type): void
     {
         $this->currentType = (in_array($type, ['error', 'failure']) === true) ? 'error' : 'warning';
 
@@ -36,10 +36,13 @@ class Printer9 extends DefaultResultPrinter
         }
     }
 
-    protected function printDefectHeader(TestFailure $defect, int $count): void
+    protected function printDefectHeader(TestFailure $defect, $count): void
     {
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     protected function printDefectTrace(TestFailure $defect): void
     {
         $this->write(printDefectTrace($defect, $this->currentType));

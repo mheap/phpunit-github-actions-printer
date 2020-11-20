@@ -3,7 +3,7 @@ phpunit -c tests/_files/phpunit.xml tests/_files/PrinterStatesTest.php
 --SKIPIF--
 <?php
 require_once(dirname(dirname(__FILE__))).'/vendor/autoload.php';
-if (version_compare(PHPUnit\Runner\Version::id(), '7.0.0', '>=') === false) echo 'skip';
+if (version_compare(PHPUnit\Runner\Version::id(), '7.0.0', '>=') === true) echo 'skip';
 ?>
 --FILE--
 <?php
@@ -26,4 +26,4 @@ PHPUnit\TextUI\Command::main();
 ::error file=test/_files/PrinterStatesTest.php,line=12::Failed asserting that false is true.
 ::error file=test/_files/PrinterStatesTest.php,line=54::Failed asserting that false is true.
 ::warning file=test/_files/PrinterStatesTest.php,line=37::This is a risky test
-::warning file=test/_files/PrinterStatesTest.php,line=40::This test did not perform any assertions%0A%0Atest/_files/PrinterStatesTest.php:40
+::warning file=test/_files/PrinterStatesTest.php,line=40::This test did not perform any assertions
