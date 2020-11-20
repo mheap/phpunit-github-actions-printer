@@ -1,5 +1,8 @@
 name: CI
-on: push
+on:
+  push: {}
+  pull_request:
+    types: [opened, reopened, synchronize]
 jobs:
   run:
     env:
@@ -33,20 +36,23 @@ jobs:
       - name: Composer dependencies
         run: composer install --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
 
-      - name: Configure tests for the current PHPUnit version (Non-Windows)
+      - name: Set correct phpt file name
+        id: phpt-filename
         run: |
-          V=$(./vendor/bin/phpunit --version)
-          sed -i.bak "s/%%VERSION%%/$V/" test/states-test.phpt
-        if: "!startsWith(matrix.os, 'windows')"
+          If (${{matrix.phpunit-version}} -eq 6) {
+            '##[set-output name=version;]-phpunit6'
+          } Else {
+            '##[set-output name=version;]'
+          }
+        shell: pwsh
 
-      - name: Configure tests for the current PHPUnit version (Windows)
-        id: phpunit-windows
+      - name: Configure tests for the current PHPUnit version
         run: |
           $V = (.\vendor\bin\phpunit --version | Out-String).trim()
-          $content = Get-Content -Path 'test/states-test.phpt'
+          $content = Get-Content -Path 'test/states-test${{ steps.phpt-filename.outputs.version}}.phpt'
           $newContent = $content -replace '%%VERSION%%', $V
-          $newContent | Set-Content -Path 'test/states-test.phpt'
-        if: "startsWith(matrix.os, 'windows')"
+          $newContent | Set-Content -Path 'test/states-test${{ steps.phpt-filename.outputs.version}}.phpt'
+        shell: pwsh
 
       - name: Run phpunit
         run: ./vendor/bin/phpunit
