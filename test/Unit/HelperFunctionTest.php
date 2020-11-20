@@ -1,5 +1,6 @@
 <?php
 
+use mheap\GithubActionsReporter\Printer6;
 use mheap\GithubActionsReporter\Printer7;
 use mheap\GithubActionsReporter\Printer8;
 use mheap\GithubActionsReporter\Printer9;
@@ -39,6 +40,11 @@ class HelperFunctionTest extends TestCase
         yield 'patch version 7.0.1' => [
             'version' => '7.0.1',
             'expected' => Printer7::class
+        ];
+
+        yield 'minor version 6.5' => [
+            'version' => '6.5',
+            'expected' => Printer6::class
         ];
 
         yield 'minor version 5' => [

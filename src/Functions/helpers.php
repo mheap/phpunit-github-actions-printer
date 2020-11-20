@@ -2,6 +2,7 @@
 
 namespace mheap\GithubActionsReporter\Functions;
 
+use mheap\GithubActionsReporter\Printer6;
 use mheap\GithubActionsReporter\Printer7;
 use mheap\GithubActionsReporter\Printer8;
 use mheap\GithubActionsReporter\Printer9;
@@ -19,6 +20,7 @@ function determinePrinter($version)
 {
     $versionMatrix = [
         // greater than equals, lower than equals, printer FQCN
+        ['6.0', '6.99.99', Printer6::class],
         ['7.0', '7.99.99', Printer7::class],
         ['8.0', '8.99.99', Printer8::class],
         ['9.0', true, Printer9::class],
