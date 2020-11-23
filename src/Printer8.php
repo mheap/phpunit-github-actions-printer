@@ -17,7 +17,7 @@ class Printer8 extends ResultPrinter
      */
     private $currentType;
 
-    protected function printHeader(TestResult $result): void
+    protected function printHeader(TestResult $result = null): void
     {
     }
 
