@@ -24,7 +24,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring
-          coverage: xdebug
+          coverage: xdebug2
 
       - name: Set PHPUnit Version
         run: |
