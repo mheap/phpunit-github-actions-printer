@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - $default-branch
+      - master
   pull_request:
     types: [opened, reopened, synchronize]
 jobs:
